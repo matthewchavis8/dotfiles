@@ -1,0 +1,173 @@
+
+# i3 config file (v4) — merged Ubuntu look & feel + your customizations
+# Mod key set to Alt (Mod1)
+set $mod Mod1
+font             pango:Ubuntu Mono 10
+
+################################################################################
+# GAPS & BORDERS (requires i3‑gaps)
+################################################################################
+gaps inner       10
+gaps outer       0
+floating_modifier $mod
+
+# Default window borders & colors (Yaru palette)
+for_window [class="^.*"] border pixel 2
+client.focused           #2c001e #2c001e #ffffff #d7dae0 #d7dae0
+client.focused_inactive  #333842 #333842 #636e83 #d7dae0 #333842
+client.unfocused         #333842 #333842 #636e83 #333842 #333842
+
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+################################################################################
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+# AUTOSTART APPLICATIONS
+################################################################################
+# Wallpaper
+exec --no-startup-id feh --bg-scale /usr/share/backgrounds/warty-final-ubuntu.png
+# Ensure monitor layout
+exec_always --no-startup-id \
+    xrandr --output eDP-1 --off \
+           --output HDMI-2 --mode 1920x1080 --rate 100 --primary
+
+################################################################################
+# WORKSPACES & ASSIGNMENTS
+################################################################################
+# # switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+# change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+# Tag Chromium & Terminal to workspace 1
+exec --no-startup-id i3-msg "workspace 1; exec chromium"
+exec --no-startup-id i3-msg "workspace 1; exec gnome-terminal"
+assign [class="Chromium"]          1
+assign [class="Gnome-terminal"]    1
+
+# Move workspace to output (left/right monitor)
+bindsym $mod+m move workspace to output left
+
+bindsym $mod+Shift+q kill
+################################################################################
+# LAYOUT CONTROLS
+################################################################################
+# Splitting
+bindsym $mod+b split h
+bindsym $mod+v split v
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Fullscreen & floating toggle
+bindsym $mod+f fullscreen toggle
+bindsym $mod+Shift+space floating toggle
+
+# Resize mode
+mode "resize" {
+    bindsym Left  resize shrink width  10 px or 10 ppt
+    bindsym Down  resize grow   height 10 px or 10 ppt
+    bindsym Up    resize shrink height 10 px or 10 ppt
+    bindsym Right resize grow   width  10 px or 10 ppt
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# Focus container hierarchy
+bindsym $mod+a focus parent
+
+################################################################################
+# WINDOW FOCUS & MOVEMENT
+################################################################################
+# Move focus
+bindsym $mod+{h,j,k,l} focus {left,down,up,right}
+bindsym $mod+{Left,Down,Up,Right} focus {left,down,up,right}
+
+# Move windows
+bindsym $mod+Shift+{h,j,k,l} move {left,down,up,right}
+bindsym $mod+Shift+{Left,Down,Up,Right} move {left,down,up,right}
+
+################################################################################
+# BARS & STATUS
+################################################################################
+bar {
+    status_command i3status
+    position       top
+    font           pango:Ubuntu Mono 10
+    tray_output    primary
+    colors {
+        background  #2c001e
+        statusline  #ffffff
+        separator   #666666
+    }
+}
+
+################################################################################
+# KEYBINDINGS: TERMINALS & LAUNCHERS
+################################################################################
+# Terminal
+bindsym $mod+Return exec --no-startup-id gnome-terminal
+# File manager
+bindsym $mod+Shift+Return exec --no-startup-id nautilus
+# Rofi launcher
+bindsym $mod+d exec --no-startup-id rofi -show drun
+
+# Reload, restart, exit
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Exit i3?' -b 'Yes, exit' 'i3-msg exit'"
+
+################################################################################
+# AUDIO & BRIGHTNESS CONTROLS
+################################################################################
+# PulseAudio
+bindsym XF86AudioRaiseVolume  exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume  exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute         exec --no-startup-id pactl set-sink-mute   @DEFAULT_SINK@ toggle
+
+# ALSA scripts
+bindsym $mod+Shift+comma exec ~/.config/i3/scripts/alsa restore
+bindsym $mod+semicolon   exec ~/.config/i3/scripts/alsa down Headphone
+bindsym $mod+comma       exec ~/.config/i3/scripts/alsa up   Headphone
+
+# Brightness
+bindsym XF86MonBrightnessUp   exec --no-startup-id xbacklight -inc 20
+bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 20
+
+# Suspend
+bindsym $mod+Shift+period exec --no-startup-id systemctl suspend
+
+################################################################################
+# FLOATING EXCEPTIONS
+################################################################################
+for_window [class="Pavucontrol"] floating enable
+for_window [class="Nm-connection-editor"] floating enable
