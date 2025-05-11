@@ -1,6 +1,6 @@
 # Environment
 
-
+![dotfiles](https://github.com/user-attachments/assets/a8d0cbde-41c2-499d-9dac-4cc393b072c8)
 
 ### Nutshell
 
