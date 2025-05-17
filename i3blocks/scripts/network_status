@@ -1,0 +1,32 @@
+#!/bin/sh
+# network_status: Displays WiFi SSID and signal strength or "Disconnected".
+
+# Try to get the active WiFi interface
+WIFI_IFACE=$(iw dev | awk '$1=="Interface"{print $2}' | head -n1)
+
+if [ -n "$WIFI_IFACE" ]; then
+    SSID=$(iwgetid -r "$WIFI_IFACE")
+    if [ -n "$SSID" ]; then
+        # Get signal strength (quality)
+        # This varies; for iwconfig:
+        # SIG_STRENGTH=$(iwconfig "$WIFI_IFACE" | awk -F'[ =]+' '/Link Quality/{gsub("/.*","",$3); print $3 "%"}')
+        # For iw (more modern):
+        # This is a bit more complex to parse reliably into a simple percentage.
+        # For simplicity, we'll just show SSID.
+        # A more robust solution would parse /proc/net/wireless or use `nmcli` if NetworkManager is used.
+        echo "$SSID"
+        # For signal with nmcli (if NetworkManager is used):
+        # nmcli -t -f ACTIVE,SSID,SIGNAL dev wifi | awk -F: '/^yes:/ {print $2 " (" $3 "%)"}' | head -n1
+
+    else
+        echo "Disconnected"
+    fi
+else
+    # Check for wired connection as a fallback
+    WIRED_IFACE=$(ip route | awk '/default/ {print $5}' | grep -E '^(en|et)')
+    if [ -n "$WIRED_IFACE" ]; then
+        echo " Wired" # Using the wired icon directly here
+    else
+        echo "No Connection"
+    fi
+fi

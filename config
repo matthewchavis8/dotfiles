@@ -1,0 +1,96 @@
+# i3blocks configuration file
+# Main configuration file: ~/.config/i3blocks/config
+# Scripts directory: ~/.config/i3blocks/scripts/
+
+# Global properties
+command=/usr/share/i3blocks/$BLOCK_NAME
+# If the script is not found in /usr/share/i3blocks, it will try to find it in this directory.
+# If you want to use your own scripts, uncomment the following line and comment the one above.
+# command=~/.config/i3blocks/scripts/$BLOCK_NAME
+
+# Your colors
+color=#ffffff # Default text color (statusline)
+# background=#2c001e # Default background - i3bar handles this
+separator_block_width=10
+markup=pango # Allows Pango markup for more styling, like font selection within a block
+
+# Separator character (using your preferred color)
+separator=true
+# Full text for separator - you can use a Nerd Font icon here too if you like
+# For example, if you want a vertical line icon:
+# full_text=|
+# Or a dot:
+# full_text=·
+# color for separator
+# separator_color=#666666 # This will be handled by i3bar's separator color if not set per block
+
+# --- Define your blocks here ---
+# Each [blockname] section defines a block.
+# 'command' points to the script that generates the output for this block.
+# 'interval' defines how often the script is run (in seconds).
+# 'label' is a static prefix (e.g., an icon).
+
+# Workspace Block (using i3-msg, no separate script needed for basic functionality)
+# This is often handled directly by i3bar itself, but i3blocks can also manage it.
+# For simplicity, we'll let i3bar handle workspace display as per your original config.
+# If you want i3blocks to handle workspaces, you'd need a more complex script.
+
+# Disk Usage (Root)
+[disk]
+label= 
+command=~/.config/i3blocks/scripts/disk_usage
+instance=/
+interval=30
+#color=#A3BE8C # Example: Green
+
+# Memory Usage
+[memory]
+label= 
+command=~/.config/i3blocks/scripts/memory_usage
+interval=5
+#color=#EBCB8B # Example: Yellow
+
+# CPU Usage
+[cpu_usage]
+label= 
+command=~/.config/i3blocks/scripts/cpu_usage
+interval=5
+#color=#BF616A # Example: Red
+
+# # Volume (PulseAudio)
+# [volume]
+# # Label will be handled by the script to show mute/unmute icon
+# command=~/.config/i3blocks/scripts/volume_control
+# interval=1 # Update frequently for responsiveness
+# signal=10 # Update on signal 10 (e.g., pactl events or custom keybind)
+# # To make volume clickable (e.g., to open pavucontrol):
+# # command=~/.config/i3blocks/scripts/volume_control && echo "pavucontrol" # This is a simple way, script needs to handle $BLOCK_BUTTON
+# # For clickable actions, the script needs to check $BLOCK_BUTTON environment variable.
+#
+# # Network Status (Wireless example)
+# [wifi]
+# label= 
+# command=~/.config/i3blocks/scripts/network_status
+# # For wired:
+# # label= # Nerd Font icon for wired
+# # instance=eth0 # or your wired interface name
+# interval=10
+
+# Date
+[date]
+label= 
+command=~/.config/i3blocks/scripts/date_time date
+interval=60
+
+# Time
+[time]
+label= 
+command=~/.config/i3blocks/scripts/date_time time
+interval=1
+
+# Logout/Power Button (Example - opens i3-nagbar)
+[logout]
+full_text= 
+command=~/.config/i3blocks/scripts/logout_menu
+interval=1
+color=#D08770

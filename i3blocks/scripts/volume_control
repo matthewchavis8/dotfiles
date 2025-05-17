@@ -1,0 +1,37 @@
+
+#!/bin/sh
+# volume_control: Script for PulseAudio volume, shows icon and percentage.
+# Handles left-click to toggle mute, scroll up/down to change volume.
+
+# Check if PulseAudio is running
+if ! pactl info > /dev/null 2>&1; then
+    echo "PulseAudio N/A"
+    exit 0
+fi
+
+# Get current default sink
+DEFAULT_SINK=$(pactl get-default-sink)
+
+case $BLOCK_BUTTON in
+    1) pactl set-sink-mute @DEFAULT_SINK@ toggle ;; # Left click: toggle mute
+    4) pactl set-sink-volume @DEFAULT_SINK@ +5% ;;  # Scroll up: volume up
+    5) pactl set-sink-volume @DEFAULT_SINK@ -5% ;;  # Scroll down: volume down
+esac
+
+# Get volume and mute status
+VOLUME_INFO=$(pactl get-sink-volume "${DEFAULT_SINK}" | awk '/Volume:/ {print $5; exit}')
+MUTE_STATUS=$(pactl get-sink-mute "${DEFAULT_SINK}" | awk '/Mute:/ {print $2}')
+
+VOLUME_PERCENT="${VOLUME_INFO%%%}" # Remove trailing '%'
+
+if [ "${MUTE_STATUS}" = "yes" ]; then
+    echo " ${VOLUME_PERCENT}%" # Mute icon
+else
+    if [ "${VOLUME_PERCENT}" -eq 0 ]; then
+        echo " ${VOLUME_PERCENT}%" # Volume off icon
+    elif [ "${VOLUME_PERCENT}" -lt 50 ]; then
+        echo " ${VOLUME_PERCENT}%" # Volume low icon
+    else
+        echo " ${VOLUME_PERCENT}%" # Volume high icon
+    fi
+fi

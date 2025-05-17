@@ -1,0 +1,19 @@
+#!/bin/sh
+# logout_menu: Triggers i3 exit nagbar on click.
+
+# The actual command to run when clicked.
+# This script itself doesn't need to output anything for the bar display if
+# full_text is set in i3blocks.conf.
+# However, i3blocks expects some output.
+# If $BLOCK_BUTTON is set (meaning it was clicked)
+if [ -n "$BLOCK_BUTTON" ]; then
+    i3-nagbar -t warning -m 'You clicked the power button. Exit i3?' -b 'Yes, exit i3' 'i3-msg exit'
+fi
+
+# Required output for i3blocks, even if full_text is used for the icon.
+# If you have full_text in i3blocks.conf, this won't be shown.
+# If you don't have full_text, this will be the text.
+# echo "" # Output the icon if not using full_text in config
+# If using full_text in the config, this script just needs to exist and be executable.
+# To ensure it always provides some output for i3blocks:
+echo "" # Minimal output

@@ -1,0 +1,23 @@
+#!/bin/sh
+# memory_usage: Script to display RAM usage.
+
+# free -h output:
+#                total        used        free      shared  buff/cache   available
+# Mem:           7.7Gi       2.0Gi       4.7Gi       155Mi       1.0Gi       5.4Gi
+# Swap:          2.0Gi          0B       2.0Gi
+
+# We want "used" memory.
+MEM_USED=$(free -h | awk '/^Mem:/ {print $3}')
+# Or as a percentage:
+# MEM_PERCENT=$(free | awk '/Mem:/ {printf("%.0f%%", $3/$2 * 100)}')
+
+echo "${MEM_USED}"
+# echo "${MEM_PERCENT}"
+
+# Optional: Change color based on usage
+# PERCENT_RAW=$(free | awk '/Mem:/ {print $3/$2 * 100}')
+# if [ $(echo "$PERCENT_RAW > 90" | bc -l) -eq 1 ]; then
+#    echo "#FF0000"
+# elif [ $(echo "$PERCENT_RAW > 75" | bc -l) -eq 1 ]; then
+#    echo "#FFA500"
+# fi

@@ -1,0 +1,14 @@
+
+#!/bin/sh
+# date_time: Script to display date or time.
+# Argument: "date" or "time"
+
+TYPE="$1"
+
+if [ "$TYPE" = "date" ]; then
+    date '+%a %b %d' # e.g., Fri May 16
+elif [ "$TYPE" = "time" ]; then
+    date '+%H:%M'   # e.g., 11:37
+else
+    date '+%a %b %d %H:%M' # Default if no arg
+fi

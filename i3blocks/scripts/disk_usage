@@ -1,0 +1,33 @@
+#!/bin/sh
+# disk_usage: Script to display disk usage for a given mount point.
+# The mount point is passed as $BLOCK_INSTANCE (e.g., / or /home).
+
+# Get the mount point from $BLOCK_INSTANCE, default to / if not set
+MOUNT_POINT="${BLOCK_INSTANCE:-/}"
+
+# Get disk usage: Used, Total, Percentage
+# df -h output for /:
+# Filesystem      Size  Used Avail Use% Mounted on
+# /dev/sda1        20G   10G  8.0G  56% /
+# We want the "Avail" part.
+# Use df -P to prevent line wrapping and ensure consistent output.
+# Use awk to parse.
+
+# Output: Available space
+# df -P "${MOUNT_POINT}" | awk 'NR==2 {print $4}'
+
+# A more complete output: Used / Total (Percentage%)
+# DISK_INFO=$(df -h "${MOUNT_POINT}" | awk 'NR==2 {printf "%s / %s (%s)", $3, $2, $5}')
+# echo "${DISK_INFO}"
+
+# Just available space for simplicity with the label
+AVAILABLE_SPACE=$(df -h "${MOUNT_POINT}" | awk 'NR==2 {print $4}')
+echo "${AVAILABLE_SPACE}"
+
+# Optional: Change color based on usage
+# USAGE_PERCENT=$(df -P "${MOUNT_POINT}" | awk 'NR==2 {print $5}' | sed 's/%//')
+# if [ "${USAGE_PERCENT}" -gt 90 ]; then
+#   echo "#FF0000" # Red for critical
+# elif [ "${USAGE_PERCENT}" -gt 75 ]; then
+#   echo "#FFA500" # Orange for warning
+# fi

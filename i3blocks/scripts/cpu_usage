@@ -1,0 +1,28 @@
+
+#!/bin/sh
+# cpu_usage: Script to display CPU usage percentage.
+
+# Get CPU usage. This is a common way but can be tricky for true instantaneous usage.
+# It reads /proc/stat, sleeps, reads again, and calculates the difference.
+# For a simpler approach, you can use tools like `mpstat` or `top`.
+
+# Using top (simpler, but might be less precise for i3blocks interval)
+# CPU_USAGE=$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}')
+# echo "${CPU_USAGE}"
+
+# Using mpstat (from sysstat package: sudo apt install sysstat)
+# If mpstat is not available, this will error.
+if command -v mpstat >/dev/null 2>&1; then
+    CPU_IDLE=$(mpstat 1 1 | awk '/Average:/ {print $NF}') # $NF is the last field (%idle)
+    CPU_USED=$(awk "BEGIN {print 100 - ${CPU_IDLE}}")
+    printf "%.0f%%\n" "${CPU_USED}"
+else
+    echo "N/A" # Fallback if mpstat is not installed
+fi
+
+# Optional: Color based on usage
+# if [ $(echo "$CPU_USED > 90" | bc -l) -eq 1 ]; then
+#    echo "#FF0000"
+# elif [ $(echo "$CPU_USED > 75" | bc -l) -eq 1 ]; then
+#    echo "#FFA500"
+# fi
