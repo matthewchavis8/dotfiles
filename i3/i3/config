@@ -1,0 +1,188 @@
+
+set $Win Mod1
+set $Alt Shift
+
+
+# Applications.
+bindsym $Win+space exec --no-startup-id "alacritty --command tmux_attach"
+bindsym $Win+Return exec --no-startup-id alacritty
+bindsym $Win+semicolon exec --no-startup-id google-chrome
+bindsym $Win+m exec --no-startup-id "emacsclient -a '' -c -n"
+bindsym $Win+p exec --no-startup-id "pgrep xfce4-panel && xfce4-popup-whiskermenu || rofi -show run -m -1 || dmenu_run"
+
+# Simple, hacky way to toggle xfce4 taskbar.
+# https://forum.xfce.org/viewtopic.php?id=11220
+bindsym $Win+apostrophe exec --no-startup-id "pgrep xfce4-panel && xfce4-panel -q || xfce4-panel"
+
+# Lock the screen / log out.
+bindsym $Win+Escape exec --no-startup-id "i3lock -c 000000"
+bindsym $Win+$Alt+Escape exec --no-startup-id "i3-msg exit"
+bindsym Control+$Alt+Delete exec --no-startup-id "xfce4-session-logout || i3-msg exit || sway-msg exit"
+
+# Print screen.
+#bindsym Print exec xfce4-screenshooter
+bindsym --release Mod1+Tab exec bash -c 'import png:- | tee ~/Downloads/screenshot_$(date +%F_%H-%M-%S).png | xclip -selection clipboard -t image/png'
+
+# Wallpaper
+exec --no-startup-id feh --bg-scale /usr/share/backgrounds/warty-final-ubuntu.png
+# Ensure monitor layout
+exec_always --no-startup-id \
+    xrandr --output eDP-1 --off \
+           --output HDMI-2 --mode 1920x1080 --rate 100 --primary
+
+# Change focus.
+bindsym $Win+j focus up
+bindsym $Win+h focus left
+bindsym $Win+k focus down
+bindsym $Win+l focus right
+# Across screens.
+bindsym $Win+comma focus output left
+bindsym $Win+period focus output right
+
+# Move focused window.
+bindsym $Win+$Alt+j move up
+bindsym $Win+$Alt+h move left
+bindsym $Win+$Alt+k move down
+bindsym $Win+$Alt+l move right
+bindsym $Win+$Alt+comma move output left; focus output left
+bindsym $Win+$Alt+period move output right; focus output right
+
+# Switch to workspace.
+bindsym $Win+1 workspace 1
+bindsym $Win+2 workspace 2
+bindsym $Win+3 workspace 3
+bindsym $Win+4 workspace 4
+bindsym $Win+5 workspace 5
+bindsym $Win+6 workspace 6
+bindsym $Win+7 workspace 7
+bindsym $Win+8 workspace 8
+bindsym $Win+9 workspace 9
+bindsym $Win+0 workspace 10
+
+# Move focused window to workspace.
+bindsym $Win+$Alt+1 move workspace 1; workspace 1
+bindsym $Win+$Alt+2 move workspace 2; workspace 2
+bindsym $Win+$Alt+3 move workspace 3; workspace 3
+bindsym $Win+$Alt+4 move workspace 4; workspace 4
+bindsym $Win+$Alt+5 move workspace 5; workspace 5
+bindsym $Win+$Alt+6 move workspace 6; workspace 6
+bindsym $Win+$Alt+7 move workspace 7; workspace 7
+bindsym $Win+$Alt+8 move workspace 8; workspace 8
+bindsym $Win+$Alt+9 move workspace 9; workspace 9
+bindsym $Win+$Alt+0 move workspace 10; workspace 10
+
+# Send focused window away temporarily, or bring it back.
+bindsym $Win+minus move scratchpad
+bindsym $Win+equal scratchpad show
+
+
+
+# Restart i3 inplace to see updated configs, bar, etc.
+bindsym $Win+$Alt+r restart
+
+# Reload i3 config file.
+bindsym $Win+$Alt+c reload
+
+# Kill focused window.
+bindsym $Win+$Alt+q kill
+
+# Fullscreen the focused window.
+bindsym $Win+f fullscreen toggle
+
+# Change split mode (vertical / horizontal).
+bindsym $Win+u split v
+bindsym $Win+o split h
+
+# Focus parent/child container.
+bindsym $Win+a focus parent
+bindsym $Win+d focus child
+
+# Change focus between the tiling and floating window layers.
+bindsym $Win+s focus mode_toggle
+
+# Toggle tiling / floating for the current window.
+bindsym $Win+$Alt+s floating toggle
+
+# Change container layout: stacked / tabbed / (vertical/horizontal split).
+#bindsym $Win+s layout stacking
+bindsym $Win+w layout tabbed
+bindsym $Win+e layout toggle split
+
+
+
+# Resize-window mode.
+bindsym $Win+r mode "resize"
+
+mode "resize" {
+    # Left: shrink the focused window’s width.
+    # Right: grow the focused window’s width.
+    # Up: shrink the focused window’s height.
+    # Down: grow the focused window’s height.
+    bindsym n resize shrink width 5 px or 5 ppt
+    bindsym o resize grow width 5 px or 5 ppt
+    bindsym u resize shrink height 5 px or 5 ppt
+    bindsym e resize grow height 5 px or 5 ppt
+
+    # Back to normal mode: q, Enter, Escape, or space
+    bindsym q mode "default"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym space mode "default"
+    # Note: these *must* be Uppercase `Return`, `Escape` and lowercase `space`,
+    # otherwise they will fail silently :/
+}
+
+
+
+# Don't show window titlebars by default. Still shows when stacked or tabbed.
+default_border pixel 3
+
+# Font for window titles.
+font pango:DejaVu Sans Mono 12
+
+# Don't show borders when there is only one window on the screen.
+hide_edge_borders smart
+
+# Don't wrap around the screen when selecting windows to the left/right, etc.
+focus_wrapping no
+
+
+# Leave my mouse alone!
+# Don't focus things on mouse-over.
+focus_follows_mouse no
+# Don't pull my mouse around when switching windows.
+mouse_warping none
+
+# Notification manager.
+#exec --no-startup-id /usr/lib/x86_64-linux-gnu/xfce4/notifyd/xfce4-notifyd
+
+
+
+# When running i3 on my work laptop, volume buttons didn't work out of the box.
+#
+# Copy-pasting from this reddit post got them to work as expected:
+# https://www.reddit.com/r/i3wm/comments/2wbv8x/question_how_to_manage_audio_with_i3/
+#bindsym XF86AudioRaiseVolume exec "amixer -q sset Master,0 1+ unmute"
+#bindsym XF86AudioLowerVolume exec "amixer -q sset Master,0 1- unmute"
+#bindsym XF86AudioMute exec "amixer -q sset Master,0 toggle"
+#
+# The above isn't working for me on my laptop right now, so I copied-pasted
+# this from stack overflow, and it seems to work.
+# https://askubuntu.com/questions/97936/terminal-command-to-set-audio-volume
+bindsym XF86AudioRaiseVolume exec "pactl set-sink-volume @DEFAULT_SINK@ +10%"
+bindsym XF86AudioLowerVolume exec "pactl set-sink-volume @DEFAULT_SINK@ -10%"
+bindsym XF86AudioMute exec "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+
+# Start i3bar to display a workspace bar.
+bar {
+    # Displayed at the top edge of the screen, instead of the bottom.
+    position top
+
+    # Time of day.
+    status_command i3status
+}
+
+
+
+# Work-specific stuff.
+include ~/.work-configs/i3

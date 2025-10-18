@@ -1,0 +1,11 @@
+general {
+colors = true
+interval = 1
+}
+
+order += "tztime local"
+
+tztime local {
+format = "%Y-%m-%d %X"
+timezone = "America/Chicago"
+}
