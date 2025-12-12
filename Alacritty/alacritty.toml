@@ -1,0 +1,17 @@
+import = ["~/.config/alacritty/themes/one-dark.toml"]
+
+[font]
+size = 11
+
+[font.normal]
+family = "0xProto Nerd Font"
+style = "Regular"
+
+[font.bold]
+family = "0xProto Nerd Font"
+style = "Bold"
+
+[font.italic]
+family = "0xProto Nerd Font"
+style = "Italic"
+
