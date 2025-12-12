@@ -10,45 +10,19 @@ return {
     "neovim/nvim-lspconfig",
     config = function()
       require "configs.lspconfig"
-
-      vim.diagnostic.config({
-        update_in_insert = true,
-        virtual_text = true,
-        underline = true,
-        severity_sort = true,
-    })
     end,
   },
 
-  {
-    'mrcjkb/rustaceanvim',
-    version = '^5', -- Recommended
-    lazy = false, -- This plugin is already lazy
-  },
+  -- test new blink
+  -- { import = "nvchad.blink.lazyspec" },
 
   {
-    "nvim-treesitter/playground",
-    cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
-    config = function()
-      require("nvim-treesitter.configs").setup {
-        playground = {
-          enable = true,
-        },
-      }
-    end,
+  	"nvim-treesitter/nvim-treesitter",
+  	opts = {
+  		ensure_installed = {
+  			"vim", "lua", "vimdoc",
+       "html", "css", "c", "cpp"
+  		},
+  	},
   },
-
-  {
-  "nvim-treesitter/nvim-treesitter",
-  opts = {
-    ensure_installed = {
-      "vim",
-      "lua",
-      "cpp",      -- ✅ Make sure "cpp" is here
-      "c",        -- Optional but often useful
-      "bash",     -- Optional
-      "html",     -- Optional
-      },
-    },
-  }
 }
