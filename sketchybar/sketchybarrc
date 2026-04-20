@@ -1,0 +1,40 @@
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+FONT_FAMILY="0xProto Nerd Font"
+
+##### Bar Appearance #####
+sketchybar --bar position=top height=24 notch_display_height=32 blur_radius=0 color=0xff000000
+
+##### Defaults #####
+default=(
+  padding_left=0
+  padding_right=0
+  icon.drawing=off
+  label.font="$FONT_FAMILY:Regular:13.0"
+  label.color=0xffffffff
+  label.padding_left=8
+  label.padding_right=8
+  background.drawing=off
+)
+sketchybar --default "${default[@]}"
+
+##### Spaces #####
+sketchybar --add event aerospace_workspace_change
+
+sketchybar --add item workspace left \
+           --set workspace \
+             label.font="$FONT_FAMILY:Regular:13.0" \
+             label.color=0xffffffff \
+             label.padding_left=6 \
+             label.padding_right=6 \
+             background.drawing=off \
+             script="$PLUGIN_DIR/space.sh" \
+           --subscribe workspace aerospace_workspace_change
+
+##### Right Items #####
+sketchybar --add item clock right \
+           --set clock update_freq=1 script="$PLUGIN_DIR/clock.sh"
+
+sketchybar --update
+
+# Initialize space highlight for current aerospace workspace
+sketchybar --trigger aerospace_workspace_change
