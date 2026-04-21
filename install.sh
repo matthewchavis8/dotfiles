@@ -336,6 +336,7 @@ deploy_file "$SCRIPT_DIR/Alacritty/one-dark.toml" "$HOME/.config/alacritty/one-d
 
 # i3
 deploy_file "$SCRIPT_DIR/i3/i3/config" "$HOME/.config/i3/config"
+deploy_file "$SCRIPT_DIR/.local/bin/picker.sh" "$HOME/.local/bin/picker.sh"
 
 # i3status
 deploy_file "$SCRIPT_DIR/i3-status/i3status/config" "$HOME/.config/i3status/config"

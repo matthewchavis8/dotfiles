@@ -11,6 +11,8 @@ bindsym $Win+space exec --no-startup-id rofi -show drun
 # https://forum.xfce.org/viewtopic.php?id=11220
 bindsym $Win+apostrophe exec --no-startup-id "pgrep xfce4-panel && xfce4-panel -q || xfce4-panel"
 
+# Monitor layout
+exec --no-startup-id xrandr --output HDMI-2 --primary --auto --output HDMI-1 --auto --right-of HDMI-2
 # Bluetooth tray
 exec --no-startup-id blueman-applet
 
@@ -23,13 +25,10 @@ bindsym Control+$Alt+Delete exec --no-startup-id "xfce4-session-logout || i3-msg
 #bindsym Print exec xfce4-screenshooter
 bindsym --release Mod1+Tab exec bash -c 'import png:- | tee ~/Downloads/screenshot_$(date +%F_%H-%M-%S).png | xclip -selection clipboard -t image/png'
 
-# 🔌 Auto-detect monitors (external HDMI-2 vs laptop eDP-1)
-# 🔌 Auto-detect monitors (external HDMI-2 vs laptop eDP-1)
-exec_always --no-startup-id bash -c 'if xrandr | grep -q "HDMI-2 connected"; then xrandr --output eDP-1 --off --output HDMI-2 --mode 1920x1080 --rate 100 --primary; else xrandr --output eDP-1 --mode 1920x1080 --primary --output HDMI-2 --off; fi'
-
 # Wallpaper
 # Wallpaper
-exec_always --no-startup-id feh --bg-scale /home/mchavis/Downloads/a_sculpture_of_a_man_with_a_face_on_his_head.png
+# exec_always --no-startup-id feh --bg-scale /home/mchavis/Downloads/a_sculpture_of_a_man_with_a_face_on_his_head.png
+bindsym $Win+$Alt+w exec --no-startup-id /home/mchavis/.local/bin/picker.sh
 
 # Change focus.
 bindsym $Win+j focus up
@@ -161,4 +160,3 @@ bar {
 
 # Work-specific stuff.
 include ~/.work-configs/i3
-
