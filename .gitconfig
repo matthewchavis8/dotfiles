@@ -1,0 +1,260 @@
+[user]
+	email = matthewchavis8@gmail.com
+  name = matthewchavis8
+
+[core]
+	editor = vim
+	whitespace = fix,trailing-space,cr-at-eol
+	hooksPath = ~/.config/git/hooks
+	excludesfile = ~/.ignore
+	commitGraph = true
+
+[credential]
+	helper = cache --timeout=7200
+
+[init]
+	defaultBranch = main
+
+[color]
+	advice = true
+	branch = true
+	diff = true
+	grep = true
+	interactive = true
+	pager = true
+	push = true
+	remote = true
+	showBranch = true
+	status = true
+	transport = true
+	ui = true
+
+[color "branch"]
+	current = 14
+	local = 10
+	remote = 9
+	upstream = 208
+	plain = 15
+
+[color "decorate"]
+	branch = 2 bold
+	remoteBranch = 1 bold
+	tag = 3 bold
+	stash = 5 bold
+	HEAD = 6 bold
+	grafted = 4 bold
+
+[color "diff"]
+	context = 15
+	meta = 4 bold reverse
+	frag = 3 bold reverse
+	func = 166 bold reverse
+	commit = 3 bold
+	old = 9
+	new = 10
+	oldMoved = 8
+	newMoved = 14
+	oldMovedAlternative = 8
+	newMovedAlternative = 14
+	whitespace = 1 reverse
+
+[color "diff-highlight"]
+	oldHighlight = ul
+	oldReset = noul
+	newHighlight = ul
+	newReset = noul
+
+[color "interactive"]
+	prompt = 4 bold
+	header = 15 bold
+	help = 15
+	error = 1
+
+[color "push"]
+	error = 1 bold
+
+[color "transport"]
+	rejected = 1 bold
+
+[color "remote"]
+	hint = 5 bold
+	warning = 3 bold
+	success = 2 bold
+	error = 1 bold
+
+[diff]
+	algorithm = myers
+	tool = vimdiff
+	colorMoved = default
+	renames = copy
+	mnemonicPrefix = true
+	wsErrorHighlight = all
+	statGraphWidth = 40
+
+[diff "bin"]
+	textconv = hexdump -v -C
+
+[difftool]
+	prompt = true
+
+[rebase]
+	missingCommitsCheck = warn
+	abbreviateCommands = false
+	instructionFormat = %<(60,trunc)%s   %cn <%ce>   [GPG: %G?% GK]
+
+[fetch]
+	prune = true
+
+[pull]
+	rebase = interactive
+
+[interactive]
+	singlekey = true
+	diffFilter = "delta"
+
+[branch]
+	autoSetupMerge = true
+	autoSetupRebase = always
+
+[log]
+	abbrevCommit = true
+	decorate = short
+	date = format:%a, %Y-%m-%d %R (%z)
+	follow = true
+	graphColors = 1,2,3,4,5,6,8,166,9,10,11,12,13,14,15,208
+	showRoot = true
+	mailmap = true
+
+[pager]
+    log = delta | less
+    show = delta | less
+    diff = delta | less
+
+[rerere]
+	enabled = true
+
+[protocol]
+	version = 2
+
+[column]
+	ui = auto,column
+
+[alias]
+	ec = "!f() { [ -f \"${XDG_CONFIG_HOME:-$HOME/.config}\"/dotfiles.conf ] && . \"${XDG_CONFIG_HOME:-$HOME/.config}\"/dotfiles.conf; git --git-dir=\"$dotfiles_dir\" config --global --edit; }; f"
+	ecl = config --edit
+
+	# diff
+	d = diff -c
+	ds = diff --find-renames --stat --cc -c
+	dc = diff --cached -c
+	dl = diff --cached -c HEAD~
+	du = diff --cached -c @{u}
+	dr = "!f() { git diff -c ${1:-HEAD}~..${1:-HEAD}; }; f"
+
+	# status
+	s = status
+	si = status --ignored
+	sa = status --ignored --untracked-files
+
+	# index
+	a = add
+	aa = add --all
+	au = add --update
+	ai = add --interactive
+	ap = add --patch
+	an = add --intent-to-add
+	u = reset HEAD --
+	up = reset --patch HEAD --
+
+	# commit
+	c = commit
+	cn = commit --no-verify
+	cc = commit -c
+	cf = commit --fixup
+	cs = commit --squash
+	ca = commit --amend
+	can = commit --amend --no-edit
+
+	# checkout
+	co = checkout
+	com = checkout master --
+	cod = checkout develop --
+	cob = checkout -b
+	cop = checkout --patch HEAD --
+
+	# branch
+	b = branch
+	bc = branch --contains
+	bd = branch --delete --force
+	bl = branch -vv
+	bla = branch --all -vv
+
+	# tag
+	t = tag
+	tc = tag --contains
+	td = tag --delete
+
+	# network (in)
+	cl = clone
+	p = pull
+	f = fetch --tags
+	ff = fetch --force --prune --tags
+	fa = fetch --all --tags
+	ffa = fetch --all --force --prune --tags
+	pfa = "!f() { git remote | xargs -I@ -P0 git fetch --tags \"$@\" @; }; f"
+
+	# network (out)
+	pu = push
+	puf = push --force-with-lease
+	puff = push --force
+
+	# submodule
+	sub = submodule
+	subu = submodule update --init --recursive
+
+	# merge
+	m = merge
+	ma = merge --abort
+	mc = merge --continue
+	mff = merge --ff-only
+	mnc = "!f() { git merge --no-commit --no-ff \"$@\"; EC=$?; git merge --abort; exit $EC; }; f"
+
+	# rebase
+	r = rebase
+	ra = rebase --abort
+	rc = rebase --continue
+	rq = rebase --quit
+	rs = rebase --skip
+	ret = rebase --edit-todo
+	rsh = rebase --show-current-patch
+
+	# interactive rebase
+	ri = rebase --interactive
+
+	# cherry-pick
+	cp = cherry-pick
+	cpa = cherry-pick --abort
+	cpc = cherry-pick --continue
+	cpq = cherry-pick --quit
+
+	# revert
+	rv = revert
+	rva = revert --abort
+	rvc = revert --continue
+	rvq = revert --quit
+
+	# reset
+	re = reset
+	res = reset --soft
+  reh = reset --hard
+
+	# show authors and and commit counts
+	#    git thanks [<git-log-args>...]
+	thanks = "!f() { git log --pretty=tformat:'%aN <%aE>' \"$@\" | sort | uniq -c | sort -rn; }; f"
+
+	# hard reset with commit before (use reflog to recover)
+	#    git wipe [<commit>]
+	wipe = "!f() { git add --all && git commit --quiet --message='WIPE-SAVEPOINT' && git reset ${1:-HEAD~} --hard && git clean -fd; }; f"
+
+	# hard reset and clean (unrecoverable)
+	bomb = "!git reset --hard HEAD && git clean -fd"
