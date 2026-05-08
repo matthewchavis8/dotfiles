@@ -8,21 +8,31 @@ return {
   -- These are some examples, uncomment them if you want to see them work!
   {
     "neovim/nvim-lspconfig",
+    lazy = false,
     config = function()
       require "configs.lspconfig"
     end,
   },
 
-  -- test new blink
-  -- { import = "nvchad.blink.lazyspec" },
+  { import = "nvchad.blink.lazyspec" },
 
   {
   	"nvim-treesitter/nvim-treesitter",
-  	opts = {
-  		ensure_installed = {
-  			"vim", "lua", "vimdoc",
-       "html", "css", "c", "cpp"
-  		},
-  	},
+  	lazy = false,
+  	build = ":TSUpdate",
+  	config = function()
+  		local treesitter = require "nvim-treesitter"
+
+  		treesitter.setup {
+  			install_dir = vim.fn.stdpath "data" .. "/site",
+  		}
+
+  		vim.api.nvim_create_autocmd("FileType", {
+  			pattern = { "c", "cpp", "css", "html", "lua", "vim", "vimdoc" },
+  			callback = function(args)
+  				pcall(vim.treesitter.start, args.buf)
+  			end,
+  		})
+  	end,
   },
 }

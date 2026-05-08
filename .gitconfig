@@ -1,6 +1,6 @@
 [user]
-	email = matthewchavis8@gmail.com
-  name = matthewchavis8
+	email =
+	name =
 
 [core]
 	editor = vim
@@ -44,25 +44,25 @@
 	HEAD = 6 bold
 	grafted = 4 bold
 
-[color "diff"]
-	context = 15
-	meta = 4 bold reverse
-	frag = 3 bold reverse
-	func = 166 bold reverse
-	commit = 3 bold
-	old = 9
-	new = 10
-	oldMoved = 8
-	newMoved = 14
-	oldMovedAlternative = 8
-	newMovedAlternative = 14
-	whitespace = 1 reverse
+; [color "diff"]
+; 	context = 15
+; 	meta = 4 bold reverse
+; 	frag = 3 bold reverse
+; 	func = 166 bold reverse
+; 	commit = 3 bold
+; 	old = 9
+; 	new = 10
+; 	oldMoved = 8
+; 	newMoved = 14
+; 	oldMovedAlternative = 8
+; 	newMovedAlternative = 14
+; 	whitespace = 1 reverse
 
-[color "diff-highlight"]
-	oldHighlight = ul
-	oldReset = noul
-	newHighlight = ul
-	newReset = noul
+; [color "diff-highlight"]
+; 	oldHighlight = ul
+; 	oldReset = noul
+; 	newHighlight = ul
+; 	newReset = noul
 
 [color "interactive"]
 	prompt = 4 bold
@@ -83,9 +83,9 @@
 	error = 1 bold
 
 [diff]
-	algorithm = myers
-	tool = vimdiff
-	colorMoved = default
+	; algorithm = myers
+	; tool = vimdiff
+	; colorMoved = default
 	renames = copy
 	mnemonicPrefix = true
 	wsErrorHighlight = all
@@ -112,10 +112,6 @@
 	singlekey = true
 	diffFilter = "delta"
 
-[branch]
-	autoSetupMerge = true
-	autoSetupRebase = always
-
 [log]
 	abbrevCommit = true
 	decorate = short
@@ -124,11 +120,6 @@
 	graphColors = 1,2,3,4,5,6,8,166,9,10,11,12,13,14,15,208
 	showRoot = true
 	mailmap = true
-
-[pager]
-    log = delta | less
-    show = delta | less
-    diff = delta | less
 
 [rerere]
 	enabled = true
